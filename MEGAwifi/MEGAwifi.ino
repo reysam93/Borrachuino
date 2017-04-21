@@ -43,11 +43,17 @@ String GetLineWIFI()
    }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void setup()
-{   Serial.begin(115200);
-   Serial3.begin(115200);
-   delay(1500);          // Para darnos tiempo a abrir la consola
-   SetUpWIFI() ;         // Envia los comandos AT
+const int motorMezcla =  9; // the number of the motor pin
+const int motorAlcohol =  10; // the number of the motor pin
+
+void setup(){  
+    // initialize the motor pin as an output:
+    pinMode(motorMezcla, OUTPUT);
+    pinMode(motorAlcohol, OUTPUT); 
+    Serial.begin(115200);
+    Serial3.begin(115200);
+    delay(1500);          // Para darnos tiempo a abrir la consola
+    SetUpWIFI() ;         // Envia los comandos AT
 }
 
    
@@ -63,23 +69,76 @@ void loop(){
        
        //Si Llega /n es que es una orden de bebida
        if (c == '\n'){
+        
+          // Ice
+          if (msg.indexOf("ice:1") > 0) {
+            Serial.println("Con hielo");
+          } else if (msg.indexOf("ice:0") > 0) {
+            Serial.println("Sin hielo");
+          }
+        
          // Drink type
          if (msg.indexOf("drink:0") > 0) {
             Serial.println("Chupito");
+            digitalWrite(motorAlcohol, HIGH);
+            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            digitalWrite(motorAlcohol, LOW);
+            Serial.println("Bebida Lista!");
+            
          } else if (msg.indexOf("drink:1") > 0) {
             Serial.println("Corto");
+            digitalWrite(motorMezcla, HIGH);
+            digitalWrite(motorAlcohol, HIGH);
+            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            digitalWrite(motorMezcla, LOW);
+            digitalWrite(motorAlcohol, LOW);
+            Serial.println("Bebida Lista!");
+            
          } else if (msg.indexOf("drink:2") > 0) {
             Serial.println("Normal");
+            digitalWrite(motorMezcla, HIGH);
+            digitalWrite(motorAlcohol, HIGH);
+            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            digitalWrite(motorMezcla, LOW);
+            digitalWrite(motorAlcohol, LOW);
+            Serial.println("Bebida Lista!");
+            
          } else if (msg.indexOf("drink:3") > 0) {
             Serial.println("Largo");
+            digitalWrite(motorMezcla, HIGH);
+            digitalWrite(motorAlcohol, HIGH);
+            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            digitalWrite(motorMezcla, LOW);
+            digitalWrite(motorAlcohol, LOW);
+            Serial.println("Bebida Lista!");
+            
+         } else if (msg.indexOf("drink:4") > 0) {
+            Serial.println("Solo refresco (vaso fiesta)");
+            digitalWrite(motorMezcla, HIGH);
+            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            digitalWrite(motorMezcla, LOW);
+            Serial.println("Bebida Lista!");
+            
+         } else if (msg.indexOf("drink:5") > 0) {
+            Serial.println("Vaso de Sidra");
+            digitalWrite(motorMezcla, HIGH);
+            digitalWrite(motorAlcohol, HIGH);
+            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            digitalWrite(motorMezcla, LOW);
+            digitalWrite(motorAlcohol, LOW);
+            Serial.println("Bebida Lista!");
+            
+         } else if (msg.indexOf("drink:6") > 0) {
+            Serial.println("Mini");
+            digitalWrite(motorMezcla, HIGH);
+            digitalWrite(motorAlcohol, HIGH);
+            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            digitalWrite(motorMezcla, LOW);
+            digitalWrite(motorAlcohol, LOW);
+            Serial.println("Bebida Lista!");
          }
          
-         // Ice
-        if (msg.indexOf("ice:1") > 0) {
-          Serial.println("Con hielo");
-        } else if (msg.indexOf("ice:0") > 0) {
-          Serial.println("Sin hielo");
-        }
+        
         c = '.';
         msg = "";
       }
