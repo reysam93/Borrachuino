@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Borrachuino</string>
+    <string name="action_settings">Settings</string>
+    <string name="ip_key_val"></string>
+    <string name="port_key"></string>
+    <string name="default_ip">0.0.0.0</string>
+    <string name="default_port">80</string>
+</resources>
