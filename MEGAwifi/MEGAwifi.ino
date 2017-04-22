@@ -88,10 +88,13 @@ void loop(){
          } else if (msg.indexOf("drink:1") > 0) {
             Serial.println("Corto");
             digitalWrite(motorMezcla, HIGH);
+            delay(1000);
             digitalWrite(motorAlcohol, HIGH);
-            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            delay(1000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
             digitalWrite(motorMezcla, LOW);
+            delay(1000);
             digitalWrite(motorAlcohol, LOW);
+            delay(1000);
             Serial.println("Bebida Lista!");
             
          } else if (msg.indexOf("drink:2") > 0) {

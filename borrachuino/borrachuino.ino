@@ -43,11 +43,41 @@ String GetLineWIFI()
    }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+// include the library code:
+#include <LiquidCrystal.h>
+
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(42, 41, 25, 24, 23, 22);
+
 const int motorMezcla =  9; // the number of the motor pin
 const int motorAlcohol =  10; // the number of the motor pin
 
+//////////////////////////////////Metodo pintar en la pantalla////////////////////////////////////////////
+
+void loadLCDDrink(int tiempo, String tipo){
+    lcd.display();
+    lcd.clear();
+    String foo = "";
+    lcd.print("Sirviendo...");
+    lcd.setCursor(0,1);
+    for(int x = 0; x < tiempo; x = x + tiempo/16){
+      foo = foo + "X";
+      lcd.print("X");
+      delay(tiempo/16);
+    }
+    lcd.clear();
+    lcd.setCursor(0,0);
+    String str = tipo + " listo!";
+    lcd.print(str);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void setup(){  
     // initialize the motor pin as an output:
+    lcd.begin(16, 2);
     pinMode(motorMezcla, OUTPUT);
     pinMode(motorAlcohol, OUTPUT); 
     Serial.begin(115200);
@@ -81,7 +111,7 @@ void loop(){
          if (msg.indexOf("drink:0") > 0) {
             Serial.println("Chupito");
             digitalWrite(motorAlcohol, HIGH);
-            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            loadLCDDrink(4000, "Chupito"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
             digitalWrite(motorAlcohol, LOW);
             Serial.println("Bebida Lista!");
             
@@ -89,7 +119,7 @@ void loop(){
             Serial.println("Corto");
             digitalWrite(motorMezcla, HIGH);
             digitalWrite(motorAlcohol, HIGH);
-            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            loadLCDDrink(4000, "Corto"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
             digitalWrite(motorMezcla, LOW);
             digitalWrite(motorAlcohol, LOW);
             Serial.println("Bebida Lista!");
@@ -98,7 +128,7 @@ void loop(){
             Serial.println("Normal");
             digitalWrite(motorMezcla, HIGH);
             digitalWrite(motorAlcohol, HIGH);
-            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            loadLCDDrink(4000, "Normal"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
             digitalWrite(motorMezcla, LOW);
             digitalWrite(motorAlcohol, LOW);
             Serial.println("Bebida Lista!");
@@ -107,7 +137,7 @@ void loop(){
             Serial.println("Largo");
             digitalWrite(motorMezcla, HIGH);
             digitalWrite(motorAlcohol, HIGH);
-            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            loadLCDDrink(4000, "Largo"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
             digitalWrite(motorMezcla, LOW);
             digitalWrite(motorAlcohol, LOW);
             Serial.println("Bebida Lista!");
@@ -115,7 +145,7 @@ void loop(){
          } else if (msg.indexOf("drink:4") > 0) {
             Serial.println("Solo refresco (vaso fiesta)");
             digitalWrite(motorMezcla, HIGH);
-            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            loadLCDDrink(4000, "V.Fiesta"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
             digitalWrite(motorMezcla, LOW);
             Serial.println("Bebida Lista!");
             
@@ -123,7 +153,7 @@ void loop(){
             Serial.println("Vaso de Sidra");
             digitalWrite(motorMezcla, HIGH);
             digitalWrite(motorAlcohol, HIGH);
-            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            loadLCDDrink(4000, "V.Sidra"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
             digitalWrite(motorMezcla, LOW);
             digitalWrite(motorAlcohol, LOW);
             Serial.println("Bebida Lista!");
@@ -132,7 +162,7 @@ void loop(){
             Serial.println("Mini");
             digitalWrite(motorMezcla, HIGH);
             digitalWrite(motorAlcohol, HIGH);
-            delay(4000); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            loadLCDDrink(4000, "Mini"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
             digitalWrite(motorMezcla, LOW);
             digitalWrite(motorAlcohol, LOW);
             Serial.println("Bebida Lista!");
