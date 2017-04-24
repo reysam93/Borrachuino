@@ -61,7 +61,8 @@ void loadLCDDrink(int tiempo, String tipo){
     lcd.display();
     lcd.clear();
     String foo = "";
-    lcd.print("Sirviendo...");
+    String am = "Echando " + tipo;
+    lcd.print(am);
     lcd.setCursor(0,1);
     for(int x = 0; x < tiempo; x = x + tiempo/16){
       foo = foo + "X";
@@ -70,8 +71,6 @@ void loadLCDDrink(int tiempo, String tipo){
     }
     lcd.clear();
     lcd.setCursor(0,0);
-    String str = tipo + " listo!";
-    lcd.print(str);
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -111,61 +110,122 @@ void loop(){
          if (msg.indexOf("drink:0") > 0) {
             Serial.println("Chupito");
             digitalWrite(motorAlcohol, HIGH);
-            loadLCDDrink(4000, "Chupito"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            //120 segundos el chupito
+            int y = 0;
+            while(true){
+              loadLCDDrink(10000, "alcohol");
+              y = y + 10;
+              if(y==120){
+                break;
+              }
+            }
+            lcd.clear();
+            lcd.print("Chupito listo!");
             digitalWrite(motorAlcohol, LOW);
             Serial.println("Bebida Lista!");
             
          } else if (msg.indexOf("drink:1") > 0) {
             Serial.println("Corto");
-            digitalWrite(motorMezcla, HIGH);
+            
             digitalWrite(motorAlcohol, HIGH);
-            loadLCDDrink(4000, "Corto"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
-            digitalWrite(motorMezcla, LOW);
+            //80 segundos de alcochol para el corto
+            int y = 0;
+            while(true){
+              loadLCDDrink(10000, "alcohol");
+              y = y + 10;
+              if(y==20){
+                break;
+              }
+            }
+            lcd.clear();
             digitalWrite(motorAlcohol, LOW);
+
+            
+            digitalWrite(motorMezcla, HIGH);
+            //280 segundos de mezcla para el corto
+            int z = 0;
+            while(true){
+              Serial.println(z);
+              loadLCDDrink(10000, "mezcla");
+              z = z + 10;
+              if(z==280){
+                break;
+              }
+            }
+            digitalWrite(motorMezcla, LOW);
+
+            
+            lcd.clear();
+            lcd.print("Corto listo!");
             Serial.println("Bebida Lista!");
             
          } else if (msg.indexOf("drink:2") > 0) {
             Serial.println("Normal");
-            digitalWrite(motorMezcla, HIGH);
-            digitalWrite(motorAlcohol, HIGH);
-            loadLCDDrink(4000, "Normal"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
-            digitalWrite(motorMezcla, LOW);
+                        digitalWrite(motorAlcohol, HIGH);
+            //120 segundos de alcochol para el medio
+            int y = 0;
+            while(true){
+ 
+              loadLCDDrink(10000, "alcohol");
+              y = y + 10;
+              if(y==120){
+                break;
+              }
+            }
+            lcd.clear();
             digitalWrite(motorAlcohol, LOW);
+
+            
+            digitalWrite(motorMezcla, HIGH);
+            //240 segundos de mezcla para el medio
+            int z = 0;
+            while(true){
+              loadLCDDrink(10000, "mezcla");
+              z = z + 10;
+              if(z==240){
+                break;
+              }
+            }
+            digitalWrite(motorMezcla, LOW);
+
+            
+            lcd.clear();
+            lcd.print("Normal listo!");
             Serial.println("Bebida Lista!");
             
          } else if (msg.indexOf("drink:3") > 0) {
             Serial.println("Largo");
-            digitalWrite(motorMezcla, HIGH);
             digitalWrite(motorAlcohol, HIGH);
-            loadLCDDrink(4000, "Largo"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
-            digitalWrite(motorMezcla, LOW);
+            //240 segundos de alcochol para el largo
+            int y = 0;
+            while(true){
+              loadLCDDrink(10000, "alcohol");
+              y = y + 10;
+              if(y==240){
+                break;
+              }
+            }
+            lcd.clear();
             digitalWrite(motorAlcohol, LOW);
-            Serial.println("Bebida Lista!");
+
             
-         } else if (msg.indexOf("drink:4") > 0) {
-            Serial.println("Solo refresco (vaso fiesta)");
             digitalWrite(motorMezcla, HIGH);
-            loadLCDDrink(4000, "V.Fiesta"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
+            //120 segundos de mezcla para el largo
+            int z = 0;
+            while(true){
+              loadLCDDrink(10000, "mezcla");
+              z = z + 10;
+              if(z==120){
+                break;
+              }
+            }
             digitalWrite(motorMezcla, LOW);
-            Serial.println("Bebida Lista!");
+
             
-         } else if (msg.indexOf("drink:5") > 0) {
-            Serial.println("Vaso de Sidra");
-            digitalWrite(motorMezcla, HIGH);
-            digitalWrite(motorAlcohol, HIGH);
-            loadLCDDrink(4000, "V.Sidra"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
-            digitalWrite(motorMezcla, LOW);
-            digitalWrite(motorAlcohol, LOW);
+            lcd.clear();
+            lcd.print("Largo listo!");
             Serial.println("Bebida Lista!");
-            
-         } else if (msg.indexOf("drink:6") > 0) {
-            Serial.println("Mini");
-            digitalWrite(motorMezcla, HIGH);
-            digitalWrite(motorAlcohol, HIGH);
-            loadLCDDrink(4000, "Mini"); //TIEMPO QUE LOS MOTORES ESTARÁN EN ALTO
-            digitalWrite(motorMezcla, LOW);
-            digitalWrite(motorAlcohol, LOW);
-            Serial.println("Bebida Lista!");
+           
          }
          
         
