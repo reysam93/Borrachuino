@@ -1,18 +1,46 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+// include the library code:
+#include <LiquidCrystal.h>
+
+// initialize the library with the numbers of the interface pins
+LiquidCrystal lcd(42, 41, 25, 24, 23, 22);
+
+const int motorMezcla =  9; // the number of the motor pin
+const int motorAlcohol =  10; // the number of the motor pin
+
+void setup(){  
+    // initialize the motor pin as an output:
+    lcd.begin(16, 2);
+    pinMode(motorMezcla, OUTPUT);
+    pinMode(motorAlcohol, OUTPUT); 
+    Serial.begin(115200);
+    Serial3.begin(115200);
+    delay(1500);          // Para darnos tiempo a abrir la consola
+    SetUpWIFI() ;         // Envia los comandos AT
+}
+
 ///////////////////////////////////////////////////////ORDENES DE ARRANQUE///////////////////////////////////////////////
-void SetUpWIFI(){  
-String ordenes[]=
-   {  //"AT+RST",
+ //"AT+RST",
+ //"AT+CWQAP", 
+ //"AT"AT+CWLAP",
+ //"AT+CIFSR" ,
+
+ String ordenes[]=
+   { 
       "AT+CWMODE=3",
-      //"AT+CWQAP", 
-      //"AT"AT+CWLAP",
+      
       "AT+CWJAP=\"AndroidAP\",\"borrachuino123\"",
-      //"AT+CIFSR" ,
+      
       "AT",
       "AT+CIPMUX=1",
       "AT+CIPSERVER=1,80",
       "END"          // Para reconocer el fin de los comandos AT
    };
-
+void SetUpWIFI(){  
   int index = 0;
   while(ordenes[index] != "END"){  
     Serial3.println(ordenes[index++]);
@@ -41,19 +69,7 @@ String GetLineWIFI()
                  return( S ) ;
           }
    }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-// include the library code:
-#include <LiquidCrystal.h>
-
-// initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(42, 41, 25, 24, 23, 22);
-
-const int motorMezcla =  9; // the number of the motor pin
-const int motorAlcohol =  10; // the number of the motor pin
+   
 
 //////////////////////////////////Metodo pintar en la pantalla////////////////////////////////////////////
 
@@ -74,19 +90,10 @@ void loadLCDDrink(int tiempo, String tipo){
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void setup(){  
-    // initialize the motor pin as an output:
-    lcd.begin(16, 2);
-    pinMode(motorMezcla, OUTPUT);
-    pinMode(motorAlcohol, OUTPUT); 
-    Serial.begin(115200);
-    Serial3.begin(115200);
-    delay(1500);          // Para darnos tiempo a abrir la consola
-    SetUpWIFI() ;         // Envia los comandos AT
-}
-
    
 String msg = "";
+String msg2 = "";
+
 
 void loop(){
  char c =' ';
@@ -98,7 +105,13 @@ void loop(){
        
        //Si Llega /n es que es una orden de bebida
        if (c == '\n'){
-        
+           if (msg.indexOf("wdt reset") > 0) {
+              //Serial3.println(ordenes[3]);
+              //Serial3.println(ordenes[4]);
+              Serial.println("Fallo");
+              //SetUpWIFI();
+           }
+
           // Ice
           if (msg.indexOf("ice:1") > 0) {
             Serial.println("Con hielo");
@@ -115,7 +128,7 @@ void loop(){
             while(true){
               loadLCDDrink(10000, "alcohol");
               y = y + 10;
-              if(y==120){
+              if(y==90){
                 break;
               }
             }
@@ -133,7 +146,7 @@ void loop(){
             while(true){
               loadLCDDrink(10000, "alcohol");
               y = y + 10;
-              if(y==20){
+              if(y==80){
                 break;
               }
             }
@@ -235,7 +248,14 @@ void loop(){
  }
  if (Serial.available()){  
     char c = Serial.read();
+    msg2 += c;
     Serial3.print(c);
+    if (msg2.indexOf("wdt reset") > 0) {
+        //Serial3.println(ordenes[3]);
+        //Serial3.println(ordenes[4]);
+        Serial.println("Fallo2");
+        //SetUpWIFI();
+     }
  }
  
 }
